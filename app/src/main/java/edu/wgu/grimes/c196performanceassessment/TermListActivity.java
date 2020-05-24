@@ -37,7 +37,7 @@ public class TermListActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initRecyclerViewTermList();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab_new_term);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
