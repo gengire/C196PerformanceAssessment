@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">C196 Performance Assessment</string>
+    <string name="wgu_courses">WGU Courses</string>
+    <string name="in_progress">In Progress</string>
+    <string name="completed">Completed</string>
+    <string name="failed">Failed</string>
+    <string name="dropped">Dropped</string>
+    <string name="pending">Pending</string>
+    <string name="passed">Passed</string>
+    <string name="wgu_assessments">WGU Assessments</string>
+    <string name="term_list">Term List</string>
 </resources>
