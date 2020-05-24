@@ -1,36 +1,44 @@
 package edu.wgu.grimes.c196performanceassessment.database;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.util.Date;
 
+@Entity (tableName = "terms")
 public class TermEntity {
 
-    private int id;
+    @PrimaryKey(autoGenerate = true)
+    private int termId;
     private String title;
     private Date startDate;
     private Date endDate;
 
+    @Ignore
     public TermEntity() {
     }
 
-    public TermEntity(int id, String title, Date startDate, Date endDate) {
-        this.id = id;
+    public TermEntity(int termId, String title, Date startDate, Date endDate) {
+        this.termId = termId;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
+    @Ignore
     public TermEntity(String title, Date startDate, Date endDate) {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public int getId() {
-        return id;
+    public int getTermId() {
+        return termId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTermId(int termId) {
+        this.termId = termId;
     }
 
     public String getTitle() {
@@ -60,7 +68,7 @@ public class TermEntity {
     @Override
     public String toString() {
         return "TermEntity{" +
-                "id=" + id +
+                "id=" + termId +
                 ", title='" + title + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
