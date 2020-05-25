@@ -7,15 +7,20 @@ import androidx.lifecycle.AndroidViewModel;
 
 import java.util.List;
 
+import edu.wgu.grimes.c196performanceassessment.database.AppRepository;
 import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
 import edu.wgu.grimes.c196performanceassessment.utilities.SampleData;
 
 public class MainViewModel extends AndroidViewModel {
 
-    public List<TermEntity> mTerms = SampleData.getTerms();
+    public List<TermEntity> mTerms;
+    private AppRepository mRepository;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
+
+        mRepository = AppRepository.getInstance();
+        mTerms = mRepository.mTerms;
     }
 
     public String getCoursesInProgress() {
