@@ -2,6 +2,7 @@ package edu.wgu.grimes.c196performanceassessment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,6 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
+
+import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
 import edu.wgu.grimes.c196performanceassessment.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,8 +62,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViewModel() {
+        final Observer<List<TermEntity>> termsObserver = new Observer<List<TermEntity>>() {
+            @Override
+            public void onChanged(List<TermEntity> termEntities) {
+                // called automatically when ever the data is updated
+                populateStatistics();
+            }
+        };
+
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
+
+        mViewModel.mTerms.observe(this, termsObserver);
     }
 
     public void gotoTermList(View v) {
@@ -78,9 +92,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_add_sample_data:
                 addSampleData();
                 return true;
+            case R.id.action_delete_all:
+                deleteAllTerms();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void deleteAllTerms() {
+        mViewModel.deleteAllTerms();
     }
 
     private void addSampleData() {

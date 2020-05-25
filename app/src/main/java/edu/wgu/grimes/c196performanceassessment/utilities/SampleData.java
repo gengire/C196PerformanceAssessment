@@ -17,10 +17,10 @@ public class SampleData {
 
     public static List<TermEntity> getTerms() {
         List<TermEntity> terms = new ArrayList<>();
-        terms.add(new TermEntity(1, "Fall 2018", getDate(-1000), getDate(-900), "Complete"));
-        terms.add(new TermEntity(2, "Sprint 2019", getDate(-800), getDate(-700), "Complete"));
-        terms.add(new TermEntity(3, "Fall 2019", getDate(-600), getDate(-500), "Complete"));
-        terms.add(new TermEntity(4, "Spring 2020", getDate(-400), getDate(40), "In Progress"));
+        terms.add(new TermEntity("Fall 2018", getDate(-1000), getDate(-900), "Complete"));
+        terms.add(new TermEntity("Spring 2019", getDate(-800), getDate(-700), "Complete"));
+        terms.add(new TermEntity("Fall 2019", getDate(-600), getDate(-500), "Complete"));
+        terms.add(new TermEntity("Spring 2020", getDate(-400), getDate(40), "In Progress"));
         return terms;
     }
 

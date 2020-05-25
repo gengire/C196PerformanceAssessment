@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import edu.wgu.grimes.c196performanceassessment.utilities.SampleData;
 
 public class MainViewModel extends AndroidViewModel {
 
-    public List<TermEntity> mTerms;
+    public LiveData<List<TermEntity>> mTerms;
     private AppRepository mRepository;
 
     public MainViewModel(@NonNull Application application) {
@@ -63,5 +64,9 @@ public class MainViewModel extends AndroidViewModel {
 
     public void addSampleData() {
         mRepository.addSampleData();
+    }
+
+    public void deleteAllTerms() {
+        mRepository.deleteAllTerms();
     }
 }

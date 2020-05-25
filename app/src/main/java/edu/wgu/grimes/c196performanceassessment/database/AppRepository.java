@@ -2,6 +2,8 @@ package edu.wgu.grimes.c196performanceassessment.database;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -12,7 +14,7 @@ public class AppRepository {
 
     private static AppRepository instance;
 
-    public List<TermEntity> mTerms;
+    public LiveData<List<TermEntity>> mTerms;
     private AppDatabase mDb;
     private Executor executor = Executors.newSingleThreadExecutor();
 
@@ -24,13 +26,23 @@ public class AppRepository {
     }
 
     private AppRepository(Context context) {
-        mTerms = SampleData.getTerms();
         mDb = AppDatabase.getInstance(context);
+        mTerms = getAllTerms();
     }
 
     public void addSampleData() {
         executor.execute(() -> {
             mDb.termDao().saveAll(SampleData.getTerms());
+        });
+    }
+
+    private LiveData<List<TermEntity>> getAllTerms() {
+        return mDb.termDao().selectAll();
+    }
+
+    public void deleteAllTerms() {
+        executor.execute(() -> {
+            mDb.termDao().deleteAll();
         });
     }
 }
