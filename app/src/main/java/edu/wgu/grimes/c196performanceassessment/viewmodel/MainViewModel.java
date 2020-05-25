@@ -19,7 +19,7 @@ public class MainViewModel extends AndroidViewModel {
     public MainViewModel(@NonNull Application application) {
         super(application);
 
-        mRepository = AppRepository.getInstance();
+        mRepository = AppRepository.getInstance(application.getApplicationContext());
         mTerms = mRepository.mTerms;
     }
 
@@ -59,5 +59,9 @@ public class MainViewModel extends AndroidViewModel {
     private int getAssessmentStatusCount(String status) {
         //todo: need to tie this to the assessments after they are added.
         return 0;
+    }
+
+    public void addSampleData() {
+        mRepository.addSampleData();
     }
 }
