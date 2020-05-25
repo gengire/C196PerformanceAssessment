@@ -49,4 +49,10 @@ public class AppRepository {
     public TermEntity getTermById(int termId) {
         return mDb.termDao().selectTermById(termId);
     }
+
+    public void insertTerm(TermEntity term) {
+        executor.execute(() -> {
+            mDb.termDao().saveTerm(term);
+        });
+    }
 }
