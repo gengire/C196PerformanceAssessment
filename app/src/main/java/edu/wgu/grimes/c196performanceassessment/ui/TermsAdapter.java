@@ -2,6 +2,7 @@ package edu.wgu.grimes.c196performanceassessment.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 import edu.wgu.grimes.c196performanceassessment.R;
 import edu.wgu.grimes.c196performanceassessment.TermEditorActivity;
 import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
+import edu.wgu.grimes.c196performanceassessment.utilities.StringUtil;
 
 import static edu.wgu.grimes.c196performanceassessment.utilities.Constants.NOTE_ID_KEY;
 
@@ -49,7 +51,11 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.ViewHolder> 
      */
     public void onBindViewHolder(@NonNull TermsAdapter.ViewHolder holder, int position) {
         final TermEntity term = mTerms.get(position);
-        holder.mTextView.setText(term.getTitle());
+        holder.mTitle.setText(term.getTitle());
+        String startDate = StringUtil.getFormattedDate(term.getStartDate());
+        String endDate = StringUtil.getFormattedDate(term.getEndDate());
+        String dateRange = startDate + " - " + endDate;
+        holder.mDateRange.setText(dateRange);
 
         holder.fabTerm.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, TermEditorActivity.class);
@@ -73,8 +79,11 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.ViewHolder> 
      * you want to use to display data
      */
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.term_text)
-        TextView mTextView;
+        @BindView(R.id.text_view_term_text)
+        TextView mTitle;
+
+        @BindView(R.id.text_view_term_date_range)
+        TextView mDateRange;
 
         @BindView(R.id.fab_term)
         FloatingActionButton fabTerm;

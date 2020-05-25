@@ -22,9 +22,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
+import edu.wgu.grimes.c196performanceassessment.utilities.StringUtil;
 import edu.wgu.grimes.c196performanceassessment.viewmodel.TermEditorViewModel;
 
 import static edu.wgu.grimes.c196performanceassessment.utilities.Constants.NOTE_ID_KEY;
+import static edu.wgu.grimes.c196performanceassessment.utilities.StringUtil.*;
+import static edu.wgu.grimes.c196performanceassessment.utilities.StringUtil.getFormattedDate;
 
 public class TermEditorActivity extends AppCompatActivity {
 
@@ -128,15 +131,7 @@ public class TermEditorActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private String getFormattedDate(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        String formattedDate =
-                (cal.get(Calendar.MONTH) + 1) + "/" +
-                        cal.get(Calendar.DATE) + "/" +
-                        cal.get(Calendar.YEAR);
-        return formattedDate;
-    }
+
 
     private void initViewModel() {
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
