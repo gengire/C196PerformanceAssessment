@@ -55,4 +55,10 @@ public class AppRepository {
             mDb.termDao().saveTerm(term);
         });
     }
+
+    public void deleteTerm(TermEntity term) {
+        executor.execute(() -> {
+            mDb.termDao().deleteTerm(term);
+        });
+    }
 }

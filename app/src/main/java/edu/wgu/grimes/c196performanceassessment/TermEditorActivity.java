@@ -10,6 +10,8 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -159,13 +161,22 @@ public class TermEditorActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            setTitle("New Term");
+            setTitle(getString(R.string.new_term));
             mNewTerm = true;
         } else {
-            setTitle("Edit Term");
+            setTitle(getString(R.string.edit_term));
             int termId = extras.getInt(NOTE_ID_KEY);
             mViewModel.loadData(termId);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (!mNewTerm) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_term_editor, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -173,6 +184,9 @@ public class TermEditorActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             saveAndReturn();
             return true;
+        } else if (item.getItemId() == R.id.action_delete) {
+            mViewModel.deleteTerm();
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
