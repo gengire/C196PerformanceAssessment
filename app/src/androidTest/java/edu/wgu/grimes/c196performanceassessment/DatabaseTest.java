@@ -72,6 +72,7 @@ public class DatabaseTest {
         assertThat(fromDb.getTermId(), is(originalTerm.getTermId()));
         assertThat(fromDb.getStartDate(), is(originalTerm.getStartDate()));
         assertThat(fromDb.getEndDate(), is(originalTerm.getEndDate()));
+        assertThat(fromDb.getStatus(), is("Complete"));
     }
 
 }
