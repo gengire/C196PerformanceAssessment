@@ -1,6 +1,7 @@
 package edu.wgu.grimes.c196performanceassessment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import butterknife.OnClick;
 import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
 import edu.wgu.grimes.c196performanceassessment.ui.TermsAdapter;
 import edu.wgu.grimes.c196performanceassessment.utilities.SampleData;
+import edu.wgu.grimes.c196performanceassessment.viewmodel.TermListViewModel;
 
 public class TermListActivity extends AppCompatActivity {
 
@@ -31,7 +33,7 @@ public class TermListActivity extends AppCompatActivity {
 
     private List<TermEntity> termsData = new ArrayList<>();
     private TermsAdapter mAdapter;
-
+    private TermListViewModel tlViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +41,19 @@ public class TermListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_term_list);
 
         ButterKnife.bind(this);
+        initViewModel();
         initRecyclerViewTermList();
 
-        termsData.addAll(SampleData.getTerms());
+        termsData.addAll(tlViewModel.tlTerms);
 
         for (TermEntity term : termsData) {
             Log.i("Terms", term.toString());
         }
+    }
+
+    private void initViewModel() {
+        ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
+        tlViewModel = new ViewModelProvider(this, factory).get(TermListViewModel.class);
     }
 
     private void initRecyclerViewTermList() {
