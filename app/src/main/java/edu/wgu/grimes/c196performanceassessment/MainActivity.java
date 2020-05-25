@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
-        setTitle("Grimes - C196 PA");
         initViewModel();
         populateStatistics();
     }

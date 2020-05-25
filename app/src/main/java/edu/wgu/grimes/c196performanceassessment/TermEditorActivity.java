@@ -1,16 +1,17 @@
 package edu.wgu.grimes.c196performanceassessment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -95,7 +96,11 @@ public class TermEditorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_editor);
+        Toolbar toolbar = findViewById(R.id.toolbar_term_editor);
+        setSupportActionBar(toolbar);
 
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_check);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
 
         initViewModel();
