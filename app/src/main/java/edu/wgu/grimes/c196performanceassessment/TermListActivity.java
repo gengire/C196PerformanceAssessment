@@ -1,6 +1,7 @@
 package edu.wgu.grimes.c196performanceassessment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,19 +42,30 @@ public class TermListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_term_list);
 
         ButterKnife.bind(this);
-        initViewModel();
         initRecyclerViewTermList();
-
-        termsData.addAll(tlViewModel.tlTerms);
-
-        for (TermEntity term : termsData) {
-            Log.i("Terms", term.toString());
-        }
+        initViewModel();
     }
 
     private void initViewModel() {
+
+        final Observer<List<TermEntity>> termsObserver = new Observer<List<TermEntity>>() {
+            @Override
+            public void onChanged(List<TermEntity> termEntities) {
+                termsData.clear();
+                termsData.addAll(termEntities);
+
+                if (mAdapter == null) {
+                    mAdapter = new TermsAdapter(termsData, TermListActivity.this);
+                    mRecyclerViewTermList.setAdapter(mAdapter);
+                } else {
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        };
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         tlViewModel = new ViewModelProvider(this, factory).get(TermListViewModel.class);
+
+        tlViewModel.tlTerms.observe(this, termsObserver);
     }
 
     private void initRecyclerViewTermList() {
@@ -61,7 +73,5 @@ public class TermListActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerViewTermList.setLayoutManager(layoutManager);
 
-        mAdapter = new TermsAdapter(termsData, this);
-        mRecyclerViewTermList.setAdapter(mAdapter);
     }
 }
