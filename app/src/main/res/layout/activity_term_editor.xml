@@ -29,7 +29,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/text_edit_term_details_title"
+            android:id="@+id/text_edit_term_editor_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -58,7 +58,7 @@
                 android:text="Start Date" />
 
             <TextView
-                android:id="@+id/text_view_term_details_start_date_value"
+                android:id="@+id/text_view_term_editor_start_date_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -83,7 +83,7 @@
                 android:text="End Date" />
 
             <TextView
-                android:id="@+id/text_view_term_details_end_date_value"
+                android:id="@+id/text_view_term_editor_end_date_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"

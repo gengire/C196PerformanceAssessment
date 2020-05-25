@@ -5,18 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.PrimaryKey;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import butterknife.BindView;
@@ -24,28 +23,29 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
 import edu.wgu.grimes.c196performanceassessment.viewmodel.TermEditorViewModel;
-import edu.wgu.grimes.c196performanceassessment.viewmodel.TermListViewModel;
 
 import static edu.wgu.grimes.c196performanceassessment.utilities.Constants.NOTE_ID_KEY;
 
 public class TermEditorActivity extends AppCompatActivity {
 
-    private static final String TAG = "TermDetailsActivity";
+    private static final String TAG = "TermEditorActivity";
 
     private TermEditorViewModel mViewModel;
 
     private DatePickerDialog.OnDateSetListener mStartDateListener;
     private DatePickerDialog.OnDateSetListener mEndDateListener;
 
-    @BindView(R.id.text_edit_term_details_title)
+    @BindView(R.id.text_edit_term_editor_title)
     TextView mTitle;
 
-    @BindView(R.id.text_view_term_details_start_date_value)
+    @BindView(R.id.text_view_term_editor_start_date_value)
     TextView mStartDate;
 
-    @BindView(R.id.text_view_term_details_end_date_value)
+    @BindView(R.id.text_view_term_editor_end_date_value)
     TextView mEndDate;
     private boolean mNewTerm;
+    private Date startDate;
+    private Date endDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class TermEditorActivity extends AppCompatActivity {
         initViewModel();
     }
 
-    @OnClick(R.id.text_view_term_details_start_date_value)
+    @OnClick(R.id.text_view_term_editor_start_date_value)
     void startDateClickHandler() {
         mStartDateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -75,10 +75,16 @@ public class TermEditorActivity extends AppCompatActivity {
                 month = month + 1;
                 String date = month + "/" + day + "/" + year;
                 mStartDate.setText(date);
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.DAY_OF_MONTH, day);
+                cal.set(Calendar.MONTH, month-1);
+                cal.set(Calendar.YEAR, year);
+                startDate = cal.getTime();
             }
         };
 
         Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(startDate);
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -91,7 +97,7 @@ public class TermEditorActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    @OnClick(R.id.text_view_term_details_end_date_value)
+    @OnClick(R.id.text_view_term_editor_end_date_value)
     void endDateClickHandler() {
         mEndDateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -99,10 +105,17 @@ public class TermEditorActivity extends AppCompatActivity {
                 month = month + 1;
                 String date = month + "/" + day + "/" + year;
                 mEndDate.setText(date);
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.DAY_OF_MONTH, day);
+                cal.set(Calendar.MONTH, month-1);
+                cal.set(Calendar.YEAR, year);
+                endDate = cal.getTime();
+
             }
         };
 
         Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(endDate);
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -115,6 +128,16 @@ public class TermEditorActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private String getFormattedDate(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        String formattedDate =
+                (cal.get(Calendar.MONTH) + 1) + "/" +
+                        cal.get(Calendar.DATE) + "/" +
+                        cal.get(Calendar.YEAR);
+        return formattedDate;
+    }
+
     private void initViewModel() {
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(TermEditorViewModel.class);
@@ -124,23 +147,13 @@ public class TermEditorActivity extends AppCompatActivity {
             @Override
             public void onChanged(TermEntity termEntity) {
                 mTitle.setText(termEntity.getTitle());
+                startDate = termEntity.getStartDate();
+                endDate = termEntity.getEndDate();
                 if (termEntity.getStartDate() != null) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(termEntity.getStartDate());
-                    String formattedDate =
-                        (cal.get(Calendar.MONTH) + 1) + "/" +
-                        cal.get(Calendar.DATE) + "/" +
-                        cal.get(Calendar.YEAR);
-                    mStartDate.setText(formattedDate);
+                    mStartDate.setText(getFormattedDate(startDate));
                 }
                 if (termEntity.getEndDate() != null) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(termEntity.getEndDate());
-                    String formattedDate =
-                        (cal.get(Calendar.MONTH) + 1) + "/" +
-                        cal.get(Calendar.DATE) + "/" +
-                        cal.get(Calendar.YEAR);
-                    mEndDate.setText(formattedDate);
+                    mEndDate.setText(getFormattedDate(endDate));
                 }
             }
         });
