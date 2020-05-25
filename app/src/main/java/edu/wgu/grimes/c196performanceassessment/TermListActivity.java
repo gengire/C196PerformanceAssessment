@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
 import edu.wgu.grimes.c196performanceassessment.ui.TermsAdapter;
-import edu.wgu.grimes.c196performanceassessment.utilities.SampleData;
 import edu.wgu.grimes.c196performanceassessment.viewmodel.TermListViewModel;
 
 public class TermListActivity extends AppCompatActivity {
@@ -41,7 +39,7 @@ public class TermListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_list);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);

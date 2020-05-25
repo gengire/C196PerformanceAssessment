@@ -1,10 +1,8 @@
 package edu.wgu.grimes.c196performanceassessment;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -28,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
+        setTitle("Grimes - C196 PA");
         initViewModel();
         populateStatistics();
     }
@@ -42,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void populateStatistics() {
-        TextView coursesInProgress = findViewById(R.id.text_view_courses_in_progress_value);
-        coursesInProgress.setText(mViewModel.getCoursesInProgress());
-
         TextView coursesCompleted = findViewById(R.id.text_view_courses_completed_value);
         coursesCompleted.setText(mViewModel.getCoursesCompleted());
+
+        TextView coursesInProgress = findViewById(R.id.text_view_courses_in_progress_value);
+        coursesInProgress.setText(mViewModel.getCoursesInProgress());
 
         TextView coursesDropped = findViewById(R.id.text_view_courses_dropped_value);
         coursesDropped.setText(mViewModel.getCoursesDropped());
