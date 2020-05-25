@@ -45,13 +45,13 @@ public class TermEditorViewModel extends AndroidViewModel {
     public void saveTerm(String title, String sDate, String eDate) {
         TermEntity term = mLiveTerm.getValue();
         if (term == null) {
-            if (TextUtils.isEmpty(title)) {
+            if (TextUtils.isEmpty(title.trim())) {
                 return;
             } else {
                 term = new TermEntity(title, getDate(sDate), getDate(eDate), "Not Started" );
             }
         } else {
-            term.setTitle(title);
+            term.setTitle(title.trim());
             term.setStartDate(getDate(sDate));
             term.setEndDate(getDate(eDate));
         }
