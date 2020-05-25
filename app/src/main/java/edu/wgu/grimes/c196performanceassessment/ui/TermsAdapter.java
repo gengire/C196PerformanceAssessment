@@ -1,6 +1,7 @@
 package edu.wgu.grimes.c196performanceassessment.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.wgu.grimes.c196performanceassessment.R;
+import edu.wgu.grimes.c196performanceassessment.TermEditorActivity;
 import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
+
+import static edu.wgu.grimes.c196performanceassessment.utilities.Constants.NOTE_ID_KEY;
 
 public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.ViewHolder> {
 
@@ -44,6 +50,12 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull TermsAdapter.ViewHolder holder, int position) {
         final TermEntity term = mTerms.get(position);
         holder.mTextView.setText(term.getTitle());
+
+        holder.fabTerm.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, TermEditorActivity.class);
+            intent.putExtra(NOTE_ID_KEY, term.getTermId());
+            mContext.startActivity(intent);
+        });
     }
 
     @Override
@@ -63,6 +75,9 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.term_text)
         TextView mTextView;
+
+        @BindView(R.id.fab_term)
+        FloatingActionButton fabTerm;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

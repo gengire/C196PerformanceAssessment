@@ -42,6 +42,7 @@ public class TermListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_term_list);
 
         ButterKnife.bind(this);
+
         initRecyclerViewTermList();
         initViewModel();
     }
