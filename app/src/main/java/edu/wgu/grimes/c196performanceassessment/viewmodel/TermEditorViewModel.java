@@ -2,6 +2,7 @@ package edu.wgu.grimes.c196performanceassessment.viewmodel;
 
 import android.app.Application;
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ import java.util.concurrent.Executors;
 import edu.wgu.grimes.c196performanceassessment.R;
 import edu.wgu.grimes.c196performanceassessment.database.AppRepository;
 import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
+
+import static edu.wgu.grimes.c196performanceassessment.utilities.StringUtil.getDate;
 
 public class TermEditorViewModel extends AndroidViewModel {
 
@@ -42,24 +45,15 @@ public class TermEditorViewModel extends AndroidViewModel {
     public void saveTerm(String title, String sDate, String eDate) {
         TermEntity term = mLiveTerm.getValue();
         if (term == null) {
-
+            if (TextUtils.isEmpty(title)) {
+                return;
+            } else {
+                term = new TermEntity(title, getDate(sDate), getDate(eDate), "Not Started" );
+            }
         } else {
             term.setTitle(title);
-
-            Date startDate = null;
-            Date endDate = null;
-//            Resources res = getApplication().getResources().getSystem();
-//            String format = res.getString(R.string.long_date_format);
-//            String format = "E MMM dd HH:mm:ss Z yyyy";
-            String format = "MM/dd/yyyy";
-            try {
-                startDate = new SimpleDateFormat(format).parse(sDate);
-                endDate = new SimpleDateFormat(format).parse(eDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            term.setStartDate(startDate);
-            term.setEndDate(endDate);
+            term.setStartDate(getDate(sDate));
+            term.setEndDate(getDate(eDate));
         }
         mRepository.insertTerm(term);
     }

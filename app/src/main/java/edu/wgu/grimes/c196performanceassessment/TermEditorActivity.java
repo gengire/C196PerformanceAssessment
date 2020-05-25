@@ -87,7 +87,9 @@ public class TermEditorActivity extends AppCompatActivity {
         };
 
         Calendar cal = GregorianCalendar.getInstance();
-        cal.setTime(startDate);
+        if (startDate != null) {
+            cal.setTime(startDate);
+        }
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -118,7 +120,9 @@ public class TermEditorActivity extends AppCompatActivity {
         };
 
         Calendar cal = GregorianCalendar.getInstance();
-        cal.setTime(endDate);
+        if (endDate != null) {
+            cal.setTime(endDate);
+        }
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);

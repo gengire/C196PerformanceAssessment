@@ -52,9 +52,13 @@ public class TermsAdapter extends RecyclerView.Adapter<TermsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull TermsAdapter.ViewHolder holder, int position) {
         final TermEntity term = mTerms.get(position);
         holder.mTitle.setText(term.getTitle());
+
+        StringBuilder sb = new StringBuilder();
         String startDate = StringUtil.getFormattedDate(term.getStartDate());
         String endDate = StringUtil.getFormattedDate(term.getEndDate());
-        String dateRange = startDate + " - " + endDate;
+        startDate = startDate == null ? "????" : startDate;
+        endDate = endDate == null ? "????" : endDate;
+        String dateRange =  startDate + " - " + endDate;
         holder.mDateRange.setText(dateRange);
 
         holder.fabTerm.setOnClickListener(view -> {
