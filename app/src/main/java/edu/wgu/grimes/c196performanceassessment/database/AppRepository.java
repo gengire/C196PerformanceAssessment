@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import edu.wgu.grimes.c196performanceassessment.database.entities.TermEntity;
 import edu.wgu.grimes.c196performanceassessment.utilities.SampleData;
 
 public class AppRepository {

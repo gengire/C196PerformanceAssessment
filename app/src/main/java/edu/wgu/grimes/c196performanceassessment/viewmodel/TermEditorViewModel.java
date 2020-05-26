@@ -11,7 +11,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import edu.wgu.grimes.c196performanceassessment.database.AppRepository;
-import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
+import edu.wgu.grimes.c196performanceassessment.database.entities.TermEntity;
 
 import static edu.wgu.grimes.c196performanceassessment.utilities.StringUtil.getDate;
 

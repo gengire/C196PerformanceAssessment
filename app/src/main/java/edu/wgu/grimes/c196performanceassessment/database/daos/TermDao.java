@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196performanceassessment.database;
+package edu.wgu.grimes.c196performanceassessment.database.daos;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -8,6 +8,8 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.List;
+
+import edu.wgu.grimes.c196performanceassessment.database.entities.TermEntity;
 
 @Dao
 public interface TermDao {

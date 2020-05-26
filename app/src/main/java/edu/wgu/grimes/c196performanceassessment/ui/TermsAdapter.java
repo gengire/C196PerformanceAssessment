@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.wgu.grimes.c196performanceassessment.R;
 import edu.wgu.grimes.c196performanceassessment.TermEditorActivity;
-import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
+import edu.wgu.grimes.c196performanceassessment.database.entities.TermEntity;
 import edu.wgu.grimes.c196performanceassessment.utilities.StringUtil;
 
 import static edu.wgu.grimes.c196performanceassessment.utilities.Constants.NOTE_ID_KEY;

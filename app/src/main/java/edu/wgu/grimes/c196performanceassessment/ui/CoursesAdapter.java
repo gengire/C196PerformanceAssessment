@@ -14,7 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.wgu.grimes.c196performanceassessment.R;
-import edu.wgu.grimes.c196performanceassessment.database.CourseEntity;
+import edu.wgu.grimes.c196performanceassessment.database.entities.CourseEntity;
 
 public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ViewHolder> {
 

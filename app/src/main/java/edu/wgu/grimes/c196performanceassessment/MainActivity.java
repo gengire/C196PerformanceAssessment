@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
-import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
+import edu.wgu.grimes.c196performanceassessment.database.entities.TermEntity;
 import edu.wgu.grimes.c196performanceassessment.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {

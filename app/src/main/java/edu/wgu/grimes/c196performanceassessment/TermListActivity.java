@@ -18,7 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
+import edu.wgu.grimes.c196performanceassessment.database.entities.TermEntity;
 import edu.wgu.grimes.c196performanceassessment.ui.TermsAdapter;
 import edu.wgu.grimes.c196performanceassessment.viewmodel.TermListViewModel;
 

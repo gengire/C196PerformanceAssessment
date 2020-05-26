@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,7 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edu.wgu.grimes.c196performanceassessment.database.CourseEntity;
+import edu.wgu.grimes.c196performanceassessment.database.entities.CourseEntity;
 import edu.wgu.grimes.c196performanceassessment.ui.CoursesAdapter;
 import edu.wgu.grimes.c196performanceassessment.utilities.SampleData;
 import edu.wgu.grimes.c196performanceassessment.viewmodel.TermEditorViewModel;

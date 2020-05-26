@@ -1,4 +1,4 @@
-package edu.wgu.grimes.c196performanceassessment.database;
+package edu.wgu.grimes.c196performanceassessment.database.entities;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;

@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import edu.wgu.grimes.c196performanceassessment.database.CourseEntity;
-import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
+import edu.wgu.grimes.c196performanceassessment.database.entities.CourseEntity;
+import edu.wgu.grimes.c196performanceassessment.database.entities.TermEntity;
 
 public class SampleData {
 

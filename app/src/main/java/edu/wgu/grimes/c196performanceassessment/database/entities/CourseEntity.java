@@ -1,12 +1,18 @@
-package edu.wgu.grimes.c196performanceassessment.database;
+package edu.wgu.grimes.c196performanceassessment.database.entities;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity
+@Entity (tableName = "courses",
+    foreignKeys = @ForeignKey(
+            entity = TermEntity.class,
+            parentColumns = "termId",
+            childColumns = "termId",
+            onDelete = ForeignKey.CASCADE))
 public class CourseEntity {
 
     @PrimaryKey(autoGenerate = true)
