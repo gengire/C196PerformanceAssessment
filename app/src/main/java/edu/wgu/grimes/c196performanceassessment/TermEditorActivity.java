@@ -27,6 +27,7 @@ import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
 import edu.wgu.grimes.c196performanceassessment.utilities.StringUtil;
 import edu.wgu.grimes.c196performanceassessment.viewmodel.TermEditorViewModel;
 
+import static edu.wgu.grimes.c196performanceassessment.utilities.Constants.EDITING_KEY;
 import static edu.wgu.grimes.c196performanceassessment.utilities.Constants.NOTE_ID_KEY;
 import static edu.wgu.grimes.c196performanceassessment.utilities.StringUtil.*;
 import static edu.wgu.grimes.c196performanceassessment.utilities.StringUtil.getFormattedDate;
@@ -49,6 +50,8 @@ public class TermEditorActivity extends AppCompatActivity {
     @BindView(R.id.text_view_term_editor_end_date_value)
     TextView mEndDate;
     private boolean mNewTerm;
+    private boolean mEditing;
+
     private Date startDate;
     private Date endDate;
 
@@ -68,6 +71,10 @@ public class TermEditorActivity extends AppCompatActivity {
 
 
         ButterKnife.bind(this);
+
+        if (savedInstanceState != null) {
+            mEditing = savedInstanceState.getBoolean(EDITING_KEY);
+        }
 
         initViewModel();
     }
@@ -144,16 +151,17 @@ public class TermEditorActivity extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this, factory).get(TermEditorViewModel.class);
 
         // update the view when the model is changed
-        mViewModel.mLiveTerm.observe(this, new Observer<TermEntity>() {
-            @Override
-            public void onChanged(TermEntity termEntity) {
-                mTitle.setText(termEntity.getTitle());
+        mViewModel.mLiveTerm.observe(this, (termEntity) -> {
+            if (termEntity != null) {
+                if (!mEditing) {
+                    mTitle.setText(termEntity.getTitle());
+                }
                 startDate = termEntity.getStartDate();
                 endDate = termEntity.getEndDate();
-                if (termEntity.getStartDate() != null) {
+                if (startDate != null) {
                     mStartDate.setText(getFormattedDate(startDate));
                 }
-                if (termEntity.getEndDate() != null) {
+                if (endDate != null) {
                     mEndDate.setText(getFormattedDate(endDate));
                 }
             }
@@ -199,5 +207,12 @@ public class TermEditorActivity extends AppCompatActivity {
     private void saveAndReturn() {
         mViewModel.saveTerm(mTitle.getText().toString(), mStartDate.getText().toString(), mEndDate.getText().toString());
         finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        //todo: BUG - dates are lost on orientation shift
+        outState.putBoolean(EDITING_KEY, true);
+        super.onSaveInstanceState(outState);
     }
 }
