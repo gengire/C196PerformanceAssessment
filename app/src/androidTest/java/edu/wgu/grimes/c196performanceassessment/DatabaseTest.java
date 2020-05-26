@@ -57,6 +57,7 @@ public class DatabaseTest {
 
     @Test
     public void createAndCountCourses() {
+        mTermDao.saveAll(SampleData.getTerms());
         mCourseDao.saveAll(SampleData.getCourses());
         int count = mCourseDao.selectCount();
         assertThat(count, is (10));
@@ -78,6 +79,7 @@ public class DatabaseTest {
 
     @Test
     public void compareCourses() {
+        mTermDao.saveAll(SampleData.getTerms());
         mCourseDao.saveAll(SampleData.getCourses());
         CourseEntity original = SampleData.getCourses().get(0);
         CourseEntity fromDb = mCourseDao.selectCourseById(1);

@@ -12,7 +12,7 @@ import edu.wgu.grimes.c196performanceassessment.database.daos.TermDao;
 import edu.wgu.grimes.c196performanceassessment.database.entities.CourseEntity;
 import edu.wgu.grimes.c196performanceassessment.database.entities.TermEntity;
 
-@Database(entities = {TermEntity.class, CourseEntity.class}, version = 1)
+@Database(entities = {TermEntity.class, CourseEntity.class}, version = 2)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -29,7 +29,9 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (LOCK) {
                 if (instance == null) {
                     instance = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDatabase.class, DATABASE_NAME).build();
+                            AppDatabase.class, DATABASE_NAME)
+                            .fallbackToDestructiveMigration()
+                            .build();
                 }
             }
         }
