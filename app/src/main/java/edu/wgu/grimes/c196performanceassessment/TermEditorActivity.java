@@ -1,6 +1,7 @@
 package edu.wgu.grimes.c196performanceassessment;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -57,6 +58,12 @@ public class TermEditorActivity extends AppCompatActivity {
 
     @BindView(R.id.recycler_view_course_list)
     RecyclerView mRecyclerView;
+
+    @OnClick(R.id.fab_add_course)
+    void addCourseClickHandler() {
+        Intent intent = new Intent(this, CourseEditorActivity.class);
+        startActivity(intent);
+    }
 
     private List<CourseEntity> coursesData = new ArrayList<>();
     private CoursesAdapter mAdapter;
