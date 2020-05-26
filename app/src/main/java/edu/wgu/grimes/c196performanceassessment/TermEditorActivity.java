@@ -4,24 +4,33 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.wgu.grimes.c196performanceassessment.database.CourseEntity;
+import edu.wgu.grimes.c196performanceassessment.ui.CoursesAdapter;
+import edu.wgu.grimes.c196performanceassessment.utilities.SampleData;
 import edu.wgu.grimes.c196performanceassessment.viewmodel.TermEditorViewModel;
 
 import static edu.wgu.grimes.c196performanceassessment.utilities.Constants.EDITING_KEY;
@@ -45,6 +54,13 @@ public class TermEditorActivity extends AppCompatActivity {
 
     @BindView(R.id.text_view_term_editor_end_date_value)
     TextView mEndDate;
+
+    @BindView(R.id.recycler_view_course_list)
+    RecyclerView mRecyclerView;
+
+    private List<CourseEntity> coursesData = new ArrayList<>();
+    private CoursesAdapter mAdapter;
+
     private boolean mNewTerm;
     private boolean mEditing;
 
@@ -72,7 +88,23 @@ public class TermEditorActivity extends AppCompatActivity {
             mEditing = savedInstanceState.getBoolean(EDITING_KEY);
         }
 
+        initRecyclerView();
         initViewModel();
+
+        coursesData.addAll(SampleData.getCourses());
+        for (CourseEntity course :
+             coursesData) {
+            Log.i("courses", course.toString());
+        }
+    }
+
+    private void initRecyclerView() {
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        mAdapter = new CoursesAdapter(coursesData, this);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @OnClick(R.id.text_view_term_editor_start_date_value)
@@ -139,8 +171,6 @@ public class TermEditorActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
         dialog.show();
     }
-
-
 
     private void initViewModel() {
         ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
