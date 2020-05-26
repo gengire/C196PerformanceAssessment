@@ -1,21 +1,15 @@
 package edu.wgu.grimes.c196performanceassessment.viewmodel;
 
 import android.app.Application;
-import android.content.res.Resources;
 import android.text.TextUtils;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import edu.wgu.grimes.c196performanceassessment.R;
 import edu.wgu.grimes.c196performanceassessment.database.AppRepository;
 import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
 

@@ -1,7 +1,5 @@
 package edu.wgu.grimes.c196performanceassessment.database;
 
-import android.content.ContentProviderClient;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;

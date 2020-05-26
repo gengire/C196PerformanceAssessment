@@ -1,15 +1,16 @@
 package edu.wgu.grimes.c196performanceassessment;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,10 @@ public class TermListActivity extends AppCompatActivity {
         mRecyclerViewTermList.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerViewTermList.setLayoutManager(layoutManager);
+
+        DividerItemDecoration divider = new DividerItemDecoration(mRecyclerViewTermList.getContext(),
+                layoutManager.getOrientation());
+        mRecyclerViewTermList.addItemDecoration(divider);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

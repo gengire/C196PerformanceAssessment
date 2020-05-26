@@ -10,7 +10,6 @@ import java.util.List;
 
 import edu.wgu.grimes.c196performanceassessment.database.AppRepository;
 import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
-import edu.wgu.grimes.c196performanceassessment.utilities.SampleData;
 
 public class MainViewModel extends AndroidViewModel {
 

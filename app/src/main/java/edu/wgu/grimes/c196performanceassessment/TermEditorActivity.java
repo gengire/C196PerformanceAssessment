@@ -1,11 +1,5 @@
 package edu.wgu.grimes.c196performanceassessment;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +10,11 @@ import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -23,13 +22,10 @@ import java.util.GregorianCalendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edu.wgu.grimes.c196performanceassessment.database.TermEntity;
-import edu.wgu.grimes.c196performanceassessment.utilities.StringUtil;
 import edu.wgu.grimes.c196performanceassessment.viewmodel.TermEditorViewModel;
 
 import static edu.wgu.grimes.c196performanceassessment.utilities.Constants.EDITING_KEY;
 import static edu.wgu.grimes.c196performanceassessment.utilities.Constants.NOTE_ID_KEY;
-import static edu.wgu.grimes.c196performanceassessment.utilities.StringUtil.*;
 import static edu.wgu.grimes.c196performanceassessment.utilities.StringUtil.getFormattedDate;
 
 public class TermEditorActivity extends AppCompatActivity {
