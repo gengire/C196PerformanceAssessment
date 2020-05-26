@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import edu.wgu.grimes.c196performanceassessment.database.entities.CourseEntity;
 import edu.wgu.grimes.c196performanceassessment.database.entities.TermEntity;
 import edu.wgu.grimes.c196performanceassessment.utilities.SampleData;
 
@@ -16,6 +17,8 @@ public class AppRepository {
     private static AppRepository instance;
 
     public LiveData<List<TermEntity>> mTerms;
+    public List<CourseEntity> mCourses;
+
     private AppDatabase mDb;
     private Executor executor = Executors.newSingleThreadExecutor();
 
@@ -29,11 +32,13 @@ public class AppRepository {
     private AppRepository(Context context) {
         mDb = AppDatabase.getInstance(context);
         mTerms = getAllTerms();
+        mCourses = SampleData.getCourses();
     }
 
     public void addSampleData() {
         executor.execute(() -> {
             mDb.termDao().saveAll(SampleData.getTerms());
+            mDb.courseDao().saveAll(SampleData.getCourses());
         });
     }
 

@@ -28,7 +28,6 @@ public class TermEditorViewModel extends AndroidViewModel {
         mRepository = AppRepository.getInstance(getApplication());
     }
 
-
     public void loadData(int termId) {
         executor.execute(() -> {
             TermEntity term = mRepository.getTermById(termId);
