@@ -2,6 +2,8 @@ package edu.wgu.grimes.c196performanceassessment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,11 +29,11 @@ public class TermListActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view_term_list)
     RecyclerView mRecyclerViewTermList;
 
-    @OnClick(R.id.fab_add_term)
-    void fabAddTermClickHandler() {
-        Intent intent = new Intent(this, TermEditorActivity.class);
-        startActivity(intent);
-    }
+//    @OnClick(R.id.fab_add_term)
+//    void fabAddTermClickHandler() {
+//        Intent intent = new Intent(this, TermEditorActivity.class);
+//        startActivity(intent);
+//    }
 
     private List<TermEntity> termsData = new ArrayList<>();
     private TermsAdapter mAdapter;
@@ -85,12 +87,30 @@ public class TermListActivity extends AppCompatActivity {
         mRecyclerViewTermList.addItemDecoration(divider);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_term_list, menu);
+        return true;
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            back();
-            return true;
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                back();
+                return true;
+            case R.id.action_add_term:
+                addTerm();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    private void addTerm() {
+        Intent intent = new Intent(this, TermEditorActivity.class);
+        startActivity(intent);
     }
 
     @Override

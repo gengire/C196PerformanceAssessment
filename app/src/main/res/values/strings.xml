@@ -104,7 +104,9 @@
     <string name="header_grimes_pa">Grimes - C196 PA</string>
     <string name="new_term">New Term</string>
     <string name="edit_term">Edit Term</string>
-    <string name="delete">Delete</string>
+    <string name="add_term">Add Term</string>
+    <string name="delete_term">Delete Term</string>
     <string name="title_activity_course_editor">CourseEditorActivity</string>
     <string name="enter_course_title">Enter Course Title</string>
+    <string name="add_course">Add Course</string>
 </resources>

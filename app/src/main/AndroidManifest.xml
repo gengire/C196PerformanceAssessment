@@ -27,7 +27,9 @@
             android:name=".TermListActivity"
             android:label="@string/header_grimes_pa"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".TermEditorActivity" />
+        <activity android:name=".TermEditorActivity"
+            android:label="Grimes - C196 PA"
+            android:theme="@style/NoActionBar" />
     </application>
 
 </manifest>

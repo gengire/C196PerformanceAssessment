@@ -58,11 +58,11 @@ public class TermEditorActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view_course_list)
     RecyclerView mRecyclerView;
 
-    @OnClick(R.id.fab_add_course)
-    void addCourseClickHandler() {
-        Intent intent = new Intent(this, CourseEditorActivity.class);
-        startActivity(intent);
-    }
+//    @OnClick(R.id.fab_add_course)
+//    void addCourseClickHandler() {
+//        Intent intent = new Intent(this, CourseEditorActivity.class);
+//        startActivity(intent);
+//    }
 
     private List<CourseEntity> coursesData = new ArrayList<>();
     private CoursesAdapter mAdapter;
@@ -83,11 +83,6 @@ public class TermEditorActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_check);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimaryDark)));
-        getSupportActionBar().setDisplayShowTitleEnabled(false);  // required to force redraw, without, gray color
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-
-
         ButterKnife.bind(this);
 
         if (savedInstanceState != null) {
@@ -99,7 +94,7 @@ public class TermEditorActivity extends AppCompatActivity {
 
         coursesData.addAll(SampleData.getCourses());
         for (CourseEntity course :
-             coursesData) {
+                coursesData) {
             Log.i("courses", course.toString());
         }
     }
@@ -123,7 +118,7 @@ public class TermEditorActivity extends AppCompatActivity {
                 mStartDate.setText(date);
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.DAY_OF_MONTH, day);
-                cal.set(Calendar.MONTH, month-1);
+                cal.set(Calendar.MONTH, month - 1);
                 cal.set(Calendar.YEAR, year);
                 startDate = cal.getTime();
             }
@@ -155,7 +150,7 @@ public class TermEditorActivity extends AppCompatActivity {
                 mEndDate.setText(date);
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.DAY_OF_MONTH, day);
-                cal.set(Calendar.MONTH, month-1);
+                cal.set(Calendar.MONTH, month - 1);
                 cal.set(Calendar.YEAR, year);
                 endDate = cal.getTime();
 
@@ -212,23 +207,31 @@ public class TermEditorActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNewTerm) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.menu_term_editor, menu);
-        }
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_term_editor, menu);
+        menu.findItem(R.id.action_delete).setVisible(!mNewTerm);
+        menu.findItem(R.id.action_add_course).setVisible(!mNewTerm);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            saveAndReturn();
-            return true;
-        } else if (item.getItemId() == R.id.action_delete) {
-            mViewModel.deleteTerm();
-            finish();
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                saveAndReturn();
+                return true;
+            case R.id.action_delete:
+                mViewModel.deleteTerm();
+                finish();
+                return true;
+            case R.id.action_add_course:
+                Intent intent = new Intent(this, CourseEditorActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
