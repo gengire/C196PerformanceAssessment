@@ -5,12 +5,15 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import edu.wgu.grimes.c196performanceassessment.database.AppRepository;
+import edu.wgu.grimes.c196performanceassessment.database.entities.CourseEntity;
 import edu.wgu.grimes.c196performanceassessment.database.entities.TermEntity;
 
 import static edu.wgu.grimes.c196performanceassessment.utilities.StringUtil.getDate;
@@ -19,6 +22,8 @@ public class TermEditorViewModel extends AndroidViewModel {
 
     public MutableLiveData<TermEntity> mLiveTerm = new MutableLiveData<>();
 
+    public LiveData<List<CourseEntity>> mCourses;
+
     private AppRepository mRepository;
 
     private Executor executor = Executors.newSingleThreadExecutor();
@@ -26,6 +31,7 @@ public class TermEditorViewModel extends AndroidViewModel {
     public TermEditorViewModel(@NonNull Application application) {
         super(application);
         mRepository = AppRepository.getInstance(getApplication());
+        mCourses = mRepository.mCourses;
     }
 
     public void loadData(int termId) {

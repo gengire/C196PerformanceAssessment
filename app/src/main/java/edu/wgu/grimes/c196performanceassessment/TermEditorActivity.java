@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,7 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +31,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.wgu.grimes.c196performanceassessment.database.entities.CourseEntity;
 import edu.wgu.grimes.c196performanceassessment.ui.CoursesAdapter;
-import edu.wgu.grimes.c196performanceassessment.utilities.SampleData;
 import edu.wgu.grimes.c196performanceassessment.viewmodel.TermEditorViewModel;
 
 import static edu.wgu.grimes.c196performanceassessment.utilities.Constants.EDITING_KEY;
@@ -56,7 +56,7 @@ public class TermEditorActivity extends AppCompatActivity {
     TextView mEndDate;
 
     @BindView(R.id.recycler_view_course_list)
-    RecyclerView mRecyclerView;
+    RecyclerView mRecyclerViewCourseList;
 
 //    @OnClick(R.id.fab_add_course)
 //    void addCourseClickHandler() {
@@ -89,23 +89,68 @@ public class TermEditorActivity extends AppCompatActivity {
             mEditing = savedInstanceState.getBoolean(EDITING_KEY);
         }
 
-        initRecyclerView();
+        initRecyclerViewCourseList();
         initViewModel();
+    }
 
-        coursesData.addAll(SampleData.getCourses());
-        for (CourseEntity course :
-                coursesData) {
-            Log.i("courses", course.toString());
+    private void initViewModel() {
+
+        final Observer<List<CourseEntity>> coursesObserver = new Observer<List<CourseEntity>>() {
+            @Override
+            public void onChanged(List<CourseEntity> courseEntities) {
+                coursesData.clear();
+                coursesData.addAll(courseEntities);
+
+                if (mAdapter == null) {
+                    mAdapter = new CoursesAdapter(coursesData, TermEditorActivity.this);
+                    mRecyclerViewCourseList.setAdapter(mAdapter);
+                } else {
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+
+        ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
+        mViewModel = new ViewModelProvider(this, factory).get(TermEditorViewModel.class);
+
+        mViewModel.mCourses.observe(this, coursesObserver);
+
+        // update the view when the model is changed
+        mViewModel.mLiveTerm.observe(this, (termEntity) -> {
+            if (termEntity != null) {
+                if (!mEditing) {
+                    mTitle.setText(termEntity.getTitle());
+                }
+                startDate = termEntity.getStartDate();
+                endDate = termEntity.getEndDate();
+                if (startDate != null) {
+                    mStartDate.setText(getFormattedDate(startDate));
+                }
+                if (endDate != null) {
+                    mEndDate.setText(getFormattedDate(endDate));
+                }
+            }
+        });
+
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            setTitle(getString(R.string.new_term));
+            mNewTerm = true;
+        } else {
+            setTitle(getString(R.string.edit_term));
+            int termId = extras.getInt(NOTE_ID_KEY);
+            mViewModel.loadData(termId);
         }
     }
 
-    private void initRecyclerView() {
-        mRecyclerView.setHasFixedSize(true);
+    private void initRecyclerViewCourseList() {
+        mRecyclerViewCourseList.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerViewCourseList.setLayoutManager(layoutManager);
 
-        mAdapter = new CoursesAdapter(coursesData, this);
-        mRecyclerView.setAdapter(mAdapter);
+        DividerItemDecoration divider = new DividerItemDecoration(mRecyclerViewCourseList.getContext(),
+                layoutManager.getOrientation());
+        mRecyclerViewCourseList.addItemDecoration(divider);
     }
 
     @OnClick(R.id.text_view_term_editor_start_date_value)
@@ -173,43 +218,11 @@ public class TermEditorActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void initViewModel() {
-        ViewModelProvider.Factory factory = new ViewModelProvider.AndroidViewModelFactory(getApplication());
-        mViewModel = new ViewModelProvider(this, factory).get(TermEditorViewModel.class);
-
-        // update the view when the model is changed
-        mViewModel.mLiveTerm.observe(this, (termEntity) -> {
-            if (termEntity != null) {
-                if (!mEditing) {
-                    mTitle.setText(termEntity.getTitle());
-                }
-                startDate = termEntity.getStartDate();
-                endDate = termEntity.getEndDate();
-                if (startDate != null) {
-                    mStartDate.setText(getFormattedDate(startDate));
-                }
-                if (endDate != null) {
-                    mEndDate.setText(getFormattedDate(endDate));
-                }
-            }
-        });
-
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            setTitle(getString(R.string.new_term));
-            mNewTerm = true;
-        } else {
-            setTitle(getString(R.string.edit_term));
-            int termId = extras.getInt(NOTE_ID_KEY);
-            mViewModel.loadData(termId);
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_term_editor, menu);
-        menu.findItem(R.id.action_delete).setVisible(!mNewTerm);
+        menu.findItem(R.id.action_delete_term).setVisible(!mNewTerm);
         menu.findItem(R.id.action_add_course).setVisible(!mNewTerm);
         return super.onCreateOptionsMenu(menu);
     }
@@ -221,17 +234,21 @@ public class TermEditorActivity extends AppCompatActivity {
             case android.R.id.home:
                 saveAndReturn();
                 return true;
-            case R.id.action_delete:
+            case R.id.action_delete_term:
                 mViewModel.deleteTerm();
                 finish();
                 return true;
             case R.id.action_add_course:
-                Intent intent = new Intent(this, CourseEditorActivity.class);
-                startActivity(intent);
+                addCourse();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void addCourse() {
+        Intent intent = new Intent(this, CourseEditorActivity.class);
+        startActivity(intent);
     }
 
     @Override

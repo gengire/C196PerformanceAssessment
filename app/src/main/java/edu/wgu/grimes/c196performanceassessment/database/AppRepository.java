@@ -17,7 +17,7 @@ public class AppRepository {
     private static AppRepository instance;
 
     public LiveData<List<TermEntity>> mTerms;
-    public List<CourseEntity> mCourses;
+    public LiveData<List<CourseEntity>> mCourses;
 
     private AppDatabase mDb;
     private Executor executor = Executors.newSingleThreadExecutor();
@@ -32,7 +32,7 @@ public class AppRepository {
     private AppRepository(Context context) {
         mDb = AppDatabase.getInstance(context);
         mTerms = getAllTerms();
-        mCourses = SampleData.getCourses();
+        mCourses = getAllCourses();
     }
 
     public void addSampleData() {
@@ -40,6 +40,10 @@ public class AppRepository {
             mDb.termDao().saveAll(SampleData.getTerms());
             mDb.courseDao().saveAll(SampleData.getCourses());
         });
+    }
+
+    private LiveData<List<CourseEntity>> getAllCourses() {
+        return mDb.courseDao().selectAll();
     }
 
     private LiveData<List<TermEntity>> getAllTerms() {

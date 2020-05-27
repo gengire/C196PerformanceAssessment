@@ -13,13 +13,13 @@ import edu.wgu.grimes.c196performanceassessment.database.entities.TermEntity;
 
 public class TermListViewModel extends AndroidViewModel {
 
-    public LiveData<List<TermEntity>> tlTerms;
+    public LiveData<List<TermEntity>> mTerms;
     private AppRepository mRepository;
 
     public TermListViewModel(@NonNull Application application) {
         super(application);
 
         mRepository = AppRepository.getInstance(application.getApplicationContext());
-        tlTerms = mRepository.mTerms;
+        mTerms = mRepository.mTerms;
     }
 }
