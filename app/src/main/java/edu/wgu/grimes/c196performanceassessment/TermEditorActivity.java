@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,12 +38,7 @@ import static edu.wgu.grimes.c196performanceassessment.utilities.StringUtil.getF
 
 public class TermEditorActivity extends AppCompatActivity {
 
-    private static final String TAG = "TermEditorActivity";
-
     private TermEditorViewModel mViewModel;
-
-    private DatePickerDialog.OnDateSetListener mStartDateListener;
-    private DatePickerDialog.OnDateSetListener mEndDateListener;
 
     @BindView(R.id.text_edit_term_editor_title)
     TextView mTitle;
@@ -95,18 +89,15 @@ public class TermEditorActivity extends AppCompatActivity {
 
     private void initViewModel() {
 
-        final Observer<List<CourseEntity>> coursesObserver = new Observer<List<CourseEntity>>() {
-            @Override
-            public void onChanged(List<CourseEntity> courseEntities) {
-                coursesData.clear();
-                coursesData.addAll(courseEntities);
+        final Observer<List<CourseEntity>> coursesObserver = courseEntities -> {
+            coursesData.clear();
+            coursesData.addAll(courseEntities);
 
-                if (mAdapter == null) {
-                    mAdapter = new CoursesAdapter(coursesData, TermEditorActivity.this);
-                    mRecyclerViewCourseList.setAdapter(mAdapter);
-                } else {
-                    mAdapter.notifyDataSetChanged();
-                }
+            if (mAdapter == null) {
+                mAdapter = new CoursesAdapter(coursesData, TermEditorActivity.this);
+                mRecyclerViewCourseList.setAdapter(mAdapter);
+            } else {
+                mAdapter.notifyDataSetChanged();
             }
         };
 
@@ -155,18 +146,15 @@ public class TermEditorActivity extends AppCompatActivity {
 
     @OnClick(R.id.text_view_term_editor_start_date_value)
     void startDateClickHandler() {
-        mStartDateListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                month = month + 1;
-                String date = month + "/" + day + "/" + year;
-                mStartDate.setText(date);
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.DAY_OF_MONTH, day);
-                cal.set(Calendar.MONTH, month - 1);
-                cal.set(Calendar.YEAR, year);
-                startDate = cal.getTime();
-            }
+        DatePickerDialog.OnDateSetListener mStartDateListener = (view, year, month, day) -> {
+            month = month + 1;
+            String date = month + "/" + day + "/" + year;
+            mStartDate.setText(date);
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.DAY_OF_MONTH, day);
+            cal.set(Calendar.MONTH, month - 1);
+            cal.set(Calendar.YEAR, year);
+            startDate = cal.getTime();
         };
 
         Calendar cal = GregorianCalendar.getInstance();
@@ -187,19 +175,16 @@ public class TermEditorActivity extends AppCompatActivity {
 
     @OnClick(R.id.text_view_term_editor_end_date_value)
     void endDateClickHandler() {
-        mEndDateListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                month = month + 1;
-                String date = month + "/" + day + "/" + year;
-                mEndDate.setText(date);
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.DAY_OF_MONTH, day);
-                cal.set(Calendar.MONTH, month - 1);
-                cal.set(Calendar.YEAR, year);
-                endDate = cal.getTime();
+        DatePickerDialog.OnDateSetListener mEndDateListener = (view, year, month, day) -> {
+            month = month + 1;
+            String date = month + "/" + day + "/" + year;
+            mEndDate.setText(date);
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.DAY_OF_MONTH, day);
+            cal.set(Calendar.MONTH, month - 1);
+            cal.set(Calendar.YEAR, year);
+            endDate = cal.getTime();
 
-            }
         };
 
         Calendar cal = GregorianCalendar.getInstance();
